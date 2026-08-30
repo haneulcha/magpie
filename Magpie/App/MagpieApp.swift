@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct MiniCopperApp: App {
+struct MagpieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @State private var env = AppEnvironment.shared
 

@@ -1,4 +1,4 @@
-# Mini Copper
+# Magpie
 
 어디서든 텍스트를 선택하고 **Shift를 두 번** 치면, 메뉴바 노트에 쌓이고, 나중에 `⌘C`로 통째로 꺼내 쓴다.
 
@@ -11,10 +11,10 @@ macOS 14+ · Xcode 26+ (Swift 6)
 ## 실행
 
 ```sh
-open MiniCopper.xcodeproj     # ⌘R
+open Magpie.xcodeproj     # ⌘R
 # 또는
-xcodebuild -project MiniCopper.xcodeproj -scheme MiniCopper -configuration Debug build
-xcodebuild -project MiniCopper.xcodeproj -scheme MiniCopper test
+xcodebuild -project Magpie.xcodeproj -scheme Magpie -configuration Debug build
+xcodebuild -project Magpie.xcodeproj -scheme Magpie test
 ```
 
 앱은 `LSUIElement`라 **Dock에 뜨지 않는다.** 메뉴바 우측의 트레이 아이콘을 찾으면 된다.
@@ -28,7 +28,7 @@ xcodebuild -project MiniCopper.xcodeproj -scheme MiniCopper test
 설정돼 있어(`CODE_SIGN_STYLE = Automatic`, 팀 지정됨) TCC가 권한을 이렇게 저장한다:
 
 ```
-identifier "com.haneul.MiniCopper" and anchor apple generic
+identifier "com.haneul.Magpie" and anchor apple generic
 and certificate leaf[subject.CN] = "Apple Development: ..."
 ```
 
@@ -46,7 +46,7 @@ and certificate leaf[subject.CN] = "Apple Development: ..."
 ```sh
 sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" \
   "select hex(csreq) from access where service='kTCCServiceAccessibility' \
-   and client='com.haneul.MiniCopper';" | xxd -r -p > /tmp/csreq.bin
+   and client='com.haneul.Magpie';" | xxd -r -p > /tmp/csreq.bin
 csreq -r /tmp/csreq.bin -t
 ```
 
@@ -54,7 +54,7 @@ csreq -r /tmp/csreq.bin -t
 
 ## 노트 파일
 
-`~/Library/Application Support/MiniCopper/notes.md`
+`~/Library/Application Support/Magpie/notes.md`
 (경로는 `NoteLocation`이 `UserDefaults`의 `noteURL` 하나만 보므로 나중에 Obsidian/iCloud 폴더로 바꿀 수 있다.)
 
 ```markdown
@@ -71,8 +71,8 @@ csreq -r /tmp/csreq.bin -t
 전역 이벤트 탭은 테스트에서 절대 못 돌리므로, 그 경계가 곧 테스트 경계다.
 
 ```
-MiniCopper/
-├── App/        MiniCopperApp · AppEnvironment(조립은 여기 한 곳)
+Magpie/
+├── App/        MagpieApp · AppEnvironment(조립은 여기 한 곳)
 ├── UI/         RootView · CapturePanel · OnboardingView · CaptureHUD
 ├── State/      CaptureStore (@Observable, 단일 진실 원천)
 ├── Domain/     Capture · CaptureSource (순수 값 타입)

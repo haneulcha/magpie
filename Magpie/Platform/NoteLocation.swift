@@ -20,7 +20,7 @@ enum NoteLocation {
             .urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first ?? URL(fileURLWithPath: NSHomeDirectory())
         return base
-            .appendingPathComponent("MiniCopper", isDirectory: true)
+            .appendingPathComponent("Magpie", isDirectory: true)
             .appendingPathComponent("notes.md")
     }
 }

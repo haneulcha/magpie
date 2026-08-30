@@ -9,7 +9,7 @@ struct OnboardingView: View {
             Text("""
                 Shift 더블탭을 감지하고 선택한 텍스트를 읽으려면 \
                 시스템 설정 › 개인정보 보호 및 보안 › 손쉬운 사용에서 \
-                MiniCopper를 허용해 주세요.
+                Magpie를 허용해 주세요.
                 """)
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)

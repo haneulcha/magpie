@@ -1,4 +1,4 @@
-# Mini Copper — 설계 문서
+# Magpie — 설계 문서
 
 > shadcn의 [Copper](https://shadcn.com/copper)($39, macOS 14+)를 참고해 만드는 개인용 캡처 앱.
 > MVP 범위 = **캡처 루프 하나만**. 스택 = **SwiftUI 네이티브**.
@@ -286,7 +286,7 @@ enum PermissionGate {
 
 ```swift
 @main
-struct MiniCopperApp: App {
+struct MagpieApp: App {
     @State private var store = CaptureStore.shared
     var body: some Scene {
         MenuBarExtra {
@@ -307,7 +307,7 @@ struct MiniCopperApp: App {
 
 ### 4.5 저장 포맷
 
-**단일 마크다운 파일.** `~/Library/Application Support/MiniCopper/notes.md`
+**단일 마크다운 파일.** `~/Library/Application Support/Magpie/notes.md`
 (추후 iCloud/Obsidian 폴더로 경로 변경 가능하게 `UserDefaults`에 URL 하나만 둔다.)
 
 메타데이터는 HTML 주석에 숨긴다 → 다른 마크다운 에디터에서 열어도 깨끗하다.

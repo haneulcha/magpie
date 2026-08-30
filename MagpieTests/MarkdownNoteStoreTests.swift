@@ -1,12 +1,12 @@
 import Foundation
 import Testing
-@testable import MiniCopper
+@testable import Magpie
 
 @MainActor
 struct MarkdownNoteStoreTests {
     private func makeTempURL() -> URL {
         FileManager.default.temporaryDirectory
-            .appendingPathComponent("MiniCopperTests-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("MagpieTests-\(UUID().uuidString)", isDirectory: true)
             .appendingPathComponent("notes.md")
     }
 

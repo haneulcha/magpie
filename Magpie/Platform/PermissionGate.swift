@@ -6,7 +6,7 @@ import Carbon.HIToolbox
 /// NSEvent 전역 모니터와 AX 읽기 둘 다 이걸로 커버된다.
 ///
 /// 권한은 **코드 서명에 묶인다.** 개발 중 서명이 바뀌면 조용히 죽고 증상은 "이벤트가 안 잡힘".
-/// 그때는 `tccutil reset Accessibility com.haneul.MiniCopper` 후 다시 허용.
+/// 그때는 `tccutil reset Accessibility com.haneul.Magpie` 후 다시 허용.
 enum PermissionGate {
     static var isTrusted: Bool { AXIsProcessTrusted() }
 

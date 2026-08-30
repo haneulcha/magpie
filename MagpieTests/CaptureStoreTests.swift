@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import MiniCopper
+@testable import Magpie
 
 @MainActor
 final class FakeNoteStore: NotePersisting {

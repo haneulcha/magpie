@@ -12,26 +12,26 @@
 			containerPortal = 1A00000000000000000000AA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1A00000000000000000000AD;
-			remoteInfo = MiniCopper;
+			remoteInfo = Magpie;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1A00000000000000000000AF /* MiniCopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniCopper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A00000000000000000000B0 /* MiniCopperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiniCopperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A00000000000000000000AF /* Magpie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magpie.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A00000000000000000000B0 /* MagpieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MagpieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A00000000000000000000C4 /* design.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = design.md; sourceTree = "<group>"; };
 		1A00000000000000000000C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		1A00000000000000000000B1 /* MiniCopper */ = {
+		1A00000000000000000000B1 /* Magpie */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MiniCopper;
+			path = Magpie;
 			sourceTree = "<group>";
 		};
-		1A00000000000000000000B2 /* MiniCopperTests */ = {
+		1A00000000000000000000B2 /* MagpieTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MiniCopperTests;
+			path = MagpieTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -59,8 +59,8 @@
 			children = (
 				1A00000000000000000000C5 /* README.md */,
 				1A00000000000000000000C4 /* design.md */,
-				1A00000000000000000000B1 /* MiniCopper */,
-				1A00000000000000000000B2 /* MiniCopperTests */,
+				1A00000000000000000000B1 /* Magpie */,
+				1A00000000000000000000B2 /* MagpieTests */,
 				1A00000000000000000000AC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,8 +68,8 @@
 		1A00000000000000000000AC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1A00000000000000000000AF /* MiniCopper.app */,
-				1A00000000000000000000B0 /* MiniCopperTests.xctest */,
+				1A00000000000000000000AF /* Magpie.app */,
+				1A00000000000000000000B0 /* MagpieTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,9 +77,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1A00000000000000000000AD /* MiniCopper */ = {
+		1A00000000000000000000AD /* Magpie */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A00000000000000000000BA /* Build configuration list for PBXNativeTarget "MiniCopper" */;
+			buildConfigurationList = 1A00000000000000000000BA /* Build configuration list for PBXNativeTarget "Magpie" */;
 			buildPhases = (
 				1A00000000000000000000B3 /* Sources */,
 				1A00000000000000000000B4 /* Frameworks */,
@@ -90,18 +90,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				1A00000000000000000000B1 /* MiniCopper */,
+				1A00000000000000000000B1 /* Magpie */,
 			);
-			name = MiniCopper;
+			name = Magpie;
 			packageProductDependencies = (
 			);
-			productName = MiniCopper;
-			productReference = 1A00000000000000000000AF /* MiniCopper.app */;
+			productName = Magpie;
+			productReference = 1A00000000000000000000AF /* Magpie.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1A00000000000000000000AE /* MiniCopperTests */ = {
+		1A00000000000000000000AE /* MagpieTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A00000000000000000000BB /* Build configuration list for PBXNativeTarget "MiniCopperTests" */;
+			buildConfigurationList = 1A00000000000000000000BB /* Build configuration list for PBXNativeTarget "MagpieTests" */;
 			buildPhases = (
 				1A00000000000000000000B6 /* Sources */,
 				1A00000000000000000000B7 /* Frameworks */,
@@ -113,13 +113,13 @@
 				1A00000000000000000000C3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				1A00000000000000000000B2 /* MiniCopperTests */,
+				1A00000000000000000000B2 /* MagpieTests */,
 			);
-			name = MiniCopperTests;
+			name = MagpieTests;
 			packageProductDependencies = (
 			);
-			productName = MiniCopperTests;
-			productReference = 1A00000000000000000000B0 /* MiniCopperTests.xctest */;
+			productName = MagpieTests;
+			productReference = 1A00000000000000000000B0 /* MagpieTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -141,7 +141,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1A00000000000000000000B9 /* Build configuration list for PBXProject "MiniCopper" */;
+			buildConfigurationList = 1A00000000000000000000B9 /* Build configuration list for PBXProject "Magpie" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -155,8 +155,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1A00000000000000000000AD /* MiniCopper */,
-				1A00000000000000000000AE /* MiniCopperTests */,
+				1A00000000000000000000AD /* Magpie */,
+				1A00000000000000000000AE /* MagpieTests */,
 			);
 		};
 /* End PBXProject section */
@@ -198,7 +198,7 @@
 /* Begin PBXTargetDependency section */
 		1A00000000000000000000C3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1A00000000000000000000AD /* MiniCopper */;
+			target = 1A00000000000000000000AD /* Magpie */;
 			targetProxy = 1A00000000000000000000C2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -282,7 +282,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.MiniCopper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.Magpie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -306,7 +306,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.MiniCopper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.Magpie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -322,10 +322,10 @@
 				DEVELOPMENT_TEAM = 3NUG7KWWZD;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.MiniCopperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.MagpieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MiniCopper.app/Contents/MacOS/MiniCopper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Magpie.app/Contents/MacOS/Magpie";
 			};
 			name = Debug;
 		};
@@ -339,17 +339,17 @@
 				DEVELOPMENT_TEAM = 3NUG7KWWZD;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.MiniCopperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haneul.MagpieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MiniCopper.app/Contents/MacOS/MiniCopper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Magpie.app/Contents/MacOS/Magpie";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1A00000000000000000000B9 /* Build configuration list for PBXProject "MiniCopper" */ = {
+		1A00000000000000000000B9 /* Build configuration list for PBXProject "Magpie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A00000000000000000000BC /* Debug */,
@@ -358,7 +358,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A00000000000000000000BA /* Build configuration list for PBXNativeTarget "MiniCopper" */ = {
+		1A00000000000000000000BA /* Build configuration list for PBXNativeTarget "Magpie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A00000000000000000000BE /* Debug */,
@@ -367,7 +367,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A00000000000000000000BB /* Build configuration list for PBXNativeTarget "MiniCopperTests" */ = {
+		1A00000000000000000000BB /* Build configuration list for PBXNativeTarget "MagpieTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A00000000000000000000C0 /* Debug */,

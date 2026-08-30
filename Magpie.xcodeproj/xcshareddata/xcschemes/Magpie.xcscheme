@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1A00000000000000000000AD"
-               BuildableName = "MiniCopper.app"
-               BlueprintName = "MiniCopper"
-               ReferencedContainer = "container:MiniCopper.xcodeproj">
+               BuildableName = "Magpie.app"
+               BlueprintName = "Magpie"
+               ReferencedContainer = "container:Magpie.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1A00000000000000000000AE"
-               BuildableName = "MiniCopperTests.xctest"
-               BlueprintName = "MiniCopperTests"
-               ReferencedContainer = "container:MiniCopper.xcodeproj">
+               BuildableName = "MagpieTests.xctest"
+               BlueprintName = "MagpieTests"
+               ReferencedContainer = "container:Magpie.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A00000000000000000000AD"
-            BuildableName = "MiniCopper.app"
-            BlueprintName = "MiniCopper"
-            ReferencedContainer = "container:MiniCopper.xcodeproj">
+            BuildableName = "Magpie.app"
+            BlueprintName = "Magpie"
+            ReferencedContainer = "container:Magpie.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A00000000000000000000AD"
-            BuildableName = "MiniCopper.app"
-            BlueprintName = "MiniCopper"
-            ReferencedContainer = "container:MiniCopper.xcodeproj">
+            BuildableName = "Magpie.app"
+            BlueprintName = "Magpie"
+            ReferencedContainer = "container:Magpie.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
