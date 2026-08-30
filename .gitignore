@@ -1,0 +1,8 @@
+.DS_Store
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+MiniCopper.xcodeproj/project.xcworkspace/
+MiniCopper.xcodeproj/xcuserdata/
