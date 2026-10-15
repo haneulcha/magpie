@@ -2,6 +2,9 @@
 
 > shadcn의 [Copper](https://shadcn.com/copper)($39, macOS 14+)를 참고해 만드는 개인용 캡처 앱.
 > MVP 범위 = **캡처 루프 하나만**. 스택 = **SwiftUI 네이티브**.
+>
+> **포지셔닝: 개인용.** 제품화는 내 사용 데이터가 근거가 될 때 검토한다(기준은 M6 회고에서 정한다).
+> 그때까지 제품화로 가는 길을 막는 결정은 피한다 — 샌드박스 off라 App Store는 불가하지만 공증된 DMG 직접 배포는 열려 있다.
 
 ---
 
@@ -75,40 +78,12 @@ MVP에 들어가는 것 (이게 전부):
 └──────────────────────────────────────────────┘
 ```
 
-조립은 `AppDelegate`(또는 `@main` App의 init)에서 한 번만:
-
-```swift
-let reader  = ChainedSelectionReader([
-    AccessibilitySelectionReader(),
-    PasteboardSelectionReader(),      // AX 실패 시 합성 ⌘C
-])
-let store   = CaptureStore(persistence: MarkdownNoteStore(url: .defaultNote))
-let trigger = ShiftDoubleTapRecognizer()
-
-trigger.onTrigger = { [weak store] in
-    guard let text = reader.readSelection() else { HUD.show(.nothingSelected); return }
-    store?.append(text, from: SourceApp.frontmost())
-    HUD.show(.captured)
-}
-```
+조립은 `Magpie/App/AppEnvironment.swift` 한 곳에서만 한다. 트리거 → 리더 체인(AX → 합성 ⌘C) → `CaptureStore.append` → HUD.
 
 ### 도메인 모델
 
-```swift
-struct Capture: Identifiable, Codable, Hashable {
-    let id: UUID
-    var text: String
-    var createdAt: Date
-    var source: CaptureSource?
-    var isDone: Bool = false        // MVP에선 안 쓰지만 포맷에 미리 자리를 둔다
-}
-
-struct CaptureSource: Codable, Hashable {
-    var appName: String             // "Safari"
-    var bundleID: String            // "com.apple.Safari"
-    var url: String?                // v2
-}
-```
+`Magpie/Domain/Capture.swift`, `CaptureSource.swift`. 순수 값 타입이고 AppKit도 파일 시스템도 모른다.
+파일에 남는 식별자는 UUID가 아니라 4자리 `shortID`다(사람이 파일을 편집해도 살아남아야 하므로).
 
 ---
 
@@ -284,22 +259,10 @@ enum PermissionGate {
 
 ### 4.4 메뉴바 & 패널
 
-```swift
-@main
-struct MagpieApp: App {
-    @State private var store = CaptureStore.shared
-    var body: some Scene {
-        MenuBarExtra {
-            CapturePanel(store: store)
-        } label: {
-            Image(systemName: "tray.and.arrow.down")
-            if store.captures.count > 0 { Text("\(store.captures.count)") }
-        }
-        .menuBarExtraStyle(.window)      // 커스텀 SwiftUI 뷰를 쓰려면 필수
-    }
-}
-```
+`Magpie/App/MagpieApp.swift`, `Magpie/UI/CapturePanel.swift`. `.menuBarExtraStyle(.window)`는 커스텀 SwiftUI 뷰를 쓰려면 필수.
 
+- **`.window` 스타일 창은 `ScrollView`에 높이를 주지 않는다** → 목록이 0pt로 접혀 개수만 보인다. 내용 높이를 재서 `.frame(height:)`로 직접 준다(`CapturePanel.listHeight`).
+- 패널 목록은 날짜 섹션(오늘/어제/날짜)으로 묶고, 출처 앱·태그 칩으로 필터한다. 필터 중 `Copy all`은 보이는 것만 복사한다.
 - `Info.plist`에 `LSUIElement = YES` → Dock 아이콘 없음, 포커스 안 뺏김.
 - HUD는 `MenuBarExtra`로 못 만든다(패널이 닫혀 있으면 뷰가 없음). 별도 `NSPanel`:
   `styleMask: [.borderless, .nonactivatingPanel]`, `level: .statusBar`, `ignoresMouseEvents = true`, `collectionBehavior: [.canJoinAllSpaces, .stationary]`, 0.8초 후 fade out.
@@ -317,8 +280,10 @@ struct MagpieApp: App {
 
 - [ ] rate limiting 미들웨어 예제 다시 찾아보기 <!--mc id=8F2A src=Safari at=14:22-->
 - [ ] > The double-shift gesture was chosen over binding to copy
-      <!--mc id=91C3 src=Arc at=14:31-->
+      <!--mc id=91C3 src=Arc at=14:31--> #읽을거리
 ```
+
+- **태그는 메타 주석 뒤에** `#태그`로 쓴다. 본문 안의 `#`(예: `issue #123`)과 섞이지 않고, Obsidian이 태그로 인식한다.
 
 - 쓰기는 **debounce 300ms + atomic write**(`.atomic` 옵션). 캡처마다 즉시 flush 하면 빠른 연속 캡처에서 파일이 깨진다.
 - 읽기는 앱 시작 시 1회 파싱. 파싱 실패한 줄은 버리지 말고 원문 그대로 보존(사용자가 직접 편집했을 수 있음).
@@ -339,6 +304,9 @@ struct MagpieApp: App {
 | **M4** | `Capture` 모델 + `MarkdownNoteStore` + 패널 리스트 | 캡처 → 파일에 줄 추가 → 앱 재시작 후에도 목록 유지 |
 | **M5** | HUD + 뱃지 + `Copy all` + 항목 삭제 | 패널 안 열고 캡처했다는 걸 알 수 있다 |
 | **M6** | 실사용 1주 + 회고 | 하루 평균 캡처 수, 실제로 다시 꺼내 쓴 횟수 기록 |
+
+> **순서 이탈 기록 (2026-10-15).** M2·M3 실사용 검증과 M6 회고 전에, 써보면서 바로 불편했던 두 가지를 먼저 넣었다:
+> 패널 날짜 섹션(시간만 보여서 언제 것인지 모름)과 출처 앱 필터 + 수동 태그. 사용량 계측은 아직 써본 양이 적어 보류.
 
 M0~M5는 주말 이틀 규모. 가장 오래 걸리는 건 M2의 튜닝과 M3의 앱별 예외 처리다.
 
@@ -367,7 +335,7 @@ Copper에 없는 차별화 (여기가 재밌는 쪽):
 - **출처 역참조** — 캡처 시 프론트 앱의 URL을 AX(`kAXURLAttribute`)로 같이 저장 → 클릭하면 그 대화/페이지로 복귀
 - **Claude / Cursor로 바로 보내기** — 모아둔 캡처를 프롬프트로 조립해 전송
 - **Obsidian / iCloud 폴더 직접 쓰기** — 저장 경로만 열어주면 됨 (이미 설계에 자리 있음)
-- **자동 태깅** — 출처 앱 기준 기본 태그
+- ~~**자동 태깅** — 출처 앱 기준 기본 태그~~ → 출처 앱 필터 + 수동 `#태그`로 먼저 구현함(2026-10-15)
 
 ---
 

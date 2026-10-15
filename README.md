@@ -60,10 +60,10 @@ csreq -r /tmp/csreq.bin -t
 ```markdown
 ## 2026-08-30
 
-- [ ] rate limiting 미들웨어 예제 <!--mc id=8F2A src="Safari" bid=com.apple.Safari at=14:22-->
+- [ ] rate limiting 미들웨어 예제 <!--mc id=8F2A src="Safari" bid=com.apple.Safari at=14:22--> #회사
 ```
 
-메타데이터는 HTML 주석에 숨긴다. **사람이 직접 쓴 줄은 파싱에 실패해도 버리지 않고** 원래 날짜 섹션에 그대로 되돌려 쓴다.
+메타데이터는 HTML 주석에 숨기고, 태그는 주석 뒤에 `#태그`로 붙인다. **사람이 직접 쓴 줄은 파싱에 실패해도 버리지 않고** 원래 날짜 섹션에 그대로 되돌려 쓴다.
 
 ## 구조
 
@@ -92,9 +92,10 @@ Xcode 16+의 synchronized folder를 쓰므로 **파일을 추가할 때 `.xcodep
 | M1 | `PermissionGate` + 온보딩 화면 | ✅ |
 | M2 | `ShiftDoubleTapRecognizer` | 동작 확인 — **반나절 실사용 오발동 검증은 아직** |
 | M3 | AX 리더 + 폴백 체인 | 동작 확인 — **앱 6곳 개별 검증은 아직** |
-| M4 | `MarkdownNoteStore` + 패널 리스트 | ✅ (유닛 테스트 12개) |
+| M4 | `MarkdownNoteStore` + 패널 리스트 | ✅ |
 | M5 | HUD + 뱃지 + `Copy all` + 삭제 | ✅ |
 | M6 | 실사용 1주 + 회고 | — |
+| + | 날짜 섹션 · 출처/태그 필터 (M6 전에 먼저 넣음, `design.md` §5) | ✅ |
 
 M2·M3는 **기계가 검증할 수 없는 마일스톤**이다. `design.md` §5의 검증법대로 직접 써봐야 한다:
 M2는 반나절 평소 작업(한글 입력 포함) 중 오발동 0, M3는 Safari·Chrome·VS Code·Terminal·Slack·Notes 6곳에서 선택 문자열이 잡히는지.
