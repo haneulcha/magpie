@@ -6,8 +6,6 @@ struct CapturePanel: View {
     @State private var filter: Filter?
     @State private var editingTags: Capture.ID?
     @State private var tagDraft = ""
-    /// MenuBarExtra 창은 ScrollView에 높이를 주지 않아 0으로 접힌다. 내용 높이를 재서 직접 준다.
-    @State private var listHeight: CGFloat = 360
 
     enum Filter: Hashable {
         case app(String)
@@ -65,7 +63,6 @@ struct CapturePanel: View {
             Divider()
             footer
         }
-        .frame(maxHeight: 420)
     }
 
     private var list: some View {
@@ -88,9 +85,10 @@ struct CapturePanel: View {
                     }
                 }
             }
-            .onGeometryChange(for: CGFloat.self, of: \.size.height) { listHeight = $0 }
         }
-        .frame(height: min(listHeight, 360))
+        // 고정 높이. MenuBarExtra 창은 ScrollView에 높이를 주지 않아 0으로 접히고,
+        // 커지기만 하고 줄지는 않아서 내용 높이를 따라가면 빈 공간이 남거나 창이 출렁인다.
+        .frame(height: 360)
     }
 
     private var filterBar: some View {
@@ -128,53 +126,57 @@ struct CapturePanel: View {
     }
 
     private func row(_ capture: Capture) -> some View {
-        HStack(alignment: .top, spacing: 8) {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(capture.text)
-                    .font(.system(size: 12))
-                    .lineLimit(3)
-                    .textSelection(.enabled)
-                HStack(spacing: 6) {
-                    Text(subtitle(for: capture))
+        VStack(alignment: .leading, spacing: 3) {
+            Text(capture.text)
+                .font(.system(size: 12))
+                .lineLimit(3)
+                .textSelection(.enabled)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            // 메타 줄 하나에 출처·태그·버튼을 모은다. 태그 편집은 같은 줄을 같은 크기의 입력창으로 바꿔 끼워 행 높이가 변하지 않는다.
+            HStack(spacing: 6) {
+                Text(subtitle(for: capture))
+                if editingTags == capture.id {
+                    TextField("#태그 공백으로 구분 · Enter 저장 · Esc 취소", text: $tagDraft)
+                        .textFieldStyle(.plain)
+                        .foregroundStyle(.primary)
+                        .onSubmit {
+                            env.store.setTags(Capture.parseTags(tagDraft), for: capture)
+                            editingTags = nil
+                        }
+                        .onExitCommand { editingTags = nil }
+                } else {
                     ForEach(capture.tags, id: \.self) { tag in
                         Button("#\(tag)") { filter = .tag(tag) }
                             .buttonStyle(.plain)
                             .foregroundStyle(Color.accentColor)
                     }
                 }
-                .font(.system(size: 10))
-                .foregroundStyle(.secondary)
-                if editingTags == capture.id {
-                    TextField("#태그 (공백으로 구분, Enter로 저장)", text: $tagDraft)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(size: 11))
-                        .onSubmit {
-                            env.store.setTags(Capture.parseTags(tagDraft), for: capture)
-                            editingTags = nil
-                        }
-                        .onExitCommand { editingTags = nil }
-                }
-            }
-            Spacer(minLength: 0)
-            if hovered == capture.id {
-                Button {
-                    tagDraft = capture.tags.map { "#\($0)" }.joined(separator: " ")
-                    editingTags = capture.id
-                } label: {
-                    Image(systemName: "tag")
+                Spacer(minLength: 0)
+                // 버튼 자리는 항상 차지하고 보이기만 바꾼다. 호버로 레이아웃이 움직이지 않게.
+                HStack(spacing: 8) {
+                    Button {
+                        tagDraft = capture.tags.map { "#\($0)" }.joined(separator: " ")
+                        editingTags = capture.id
+                    } label: {
+                        Image(systemName: "tag")
+                    }
+                    .help("태그 편집")
+                    Button {
+                        env.store.delete(capture)
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                    }
+                    .help("삭제")
                 }
                 .buttonStyle(.plain)
-                .foregroundStyle(.secondary)
-                .help("태그 편집")
-                Button {
-                    env.store.delete(capture)
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                }
-                .buttonStyle(.plain)
-                .foregroundStyle(.secondary)
-                .help("삭제")
+                .font(.system(size: 11))
+                .fixedSize()
+                .opacity(hovered == capture.id ? 1 : 0)
+                .allowsHitTesting(hovered == capture.id)
             }
+            .font(.system(size: 10))
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
