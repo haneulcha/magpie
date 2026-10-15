@@ -133,6 +133,8 @@ final class MarkdownNoteStore: NotePersisting {
             .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return nil }
 
+        let tags = Capture.parseTags(String(last[commentEnd.upperBound...]))
+
         let source = meta["src"].map {
             CaptureSource(appName: $0, bundleID: meta["bid"] ?? "")
         }
@@ -142,7 +144,8 @@ final class MarkdownNoteStore: NotePersisting {
             text: text,
             createdAt: timestamp(day: day, time: meta["at"]),
             source: source,
-            isDone: prefix.lowercased() == "- [x] "
+            isDone: prefix.lowercased() == "- [x] ",
+            tags: tags
         )
     }
 
@@ -225,7 +228,8 @@ final class MarkdownNoteStore: NotePersisting {
         }
         meta += " at=\(timeFormatter.string(from: capture.createdAt))"
 
-        return "- [\(capture.isDone ? "x" : " ")] \(body) <!--mc \(meta)-->"
+        let tags = capture.tags.map { " #\($0)" }.joined()
+        return "- [\(capture.isDone ? "x" : " ")] \(body) <!--mc \(meta)-->\(tags)"
     }
 
     // MARK: - Formatters

@@ -62,8 +62,8 @@ final class AppEnvironment {
         CaptureHUD.shared.show(.captured)
     }
 
-    func copyAllToPasteboard() {
-        let dump = store.plainTextDump
+    func copyAllToPasteboard(_ captures: [Capture]) {
+        let dump = CaptureStore.plainTextDump(captures)
         guard !dump.isEmpty else { return }
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(dump, forType: .string)

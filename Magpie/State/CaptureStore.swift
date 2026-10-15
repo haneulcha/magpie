@@ -44,13 +44,19 @@ final class CaptureStore {
         scheduleSave()
     }
 
+    func setTags(_ tags: [String], for capture: Capture) {
+        guard let index = captures.firstIndex(where: { $0.id == capture.id }) else { return }
+        captures[index].tags = tags
+        scheduleSave()
+    }
+
     func deleteAll() {
         captures.removeAll()
         scheduleSave()
     }
 
-    /// `Copy all (⌘C)`이 클립보드에 넣는 내용.
-    var plainTextDump: String {
+    /// `Copy all (⌘C)`이 클립보드에 넣는 내용. 필터가 걸려 있으면 보이는 것만 넘어온다.
+    static func plainTextDump(_ captures: [Capture]) -> String {
         captures.map(\.text).joined(separator: "\n\n")
     }
 

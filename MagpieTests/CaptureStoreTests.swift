@@ -73,6 +73,6 @@ struct CaptureStoreTests {
         let (store, _) = makeStore()
         store.append("a", from: nil)
         store.append("b", from: nil)
-        #expect(store.plainTextDump == "a\n\nb")
+        #expect(CaptureStore.plainTextDump(store.captures) == "a\n\nb")
     }
 }

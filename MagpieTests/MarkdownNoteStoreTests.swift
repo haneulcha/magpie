@@ -31,6 +31,25 @@ struct MarkdownNoteStoreTests {
         #expect(loaded.first?.source?.bundleID == "com.apple.Safari")
     }
 
+    @Test func 태그는_주석_뒤에_쓰고_본문의_샵은_건드리지_않는다() throws {
+        let url = makeTempURL()
+        let store = MarkdownNoteStore(url: url)
+        let original = Capture(text: "issue #123 참고", tags: ["회사", "읽을거리"])
+
+        try store.save([original])
+        let raw = try String(contentsOf: url, encoding: .utf8)
+        #expect(raw.contains("--> #회사 #읽을거리"))
+
+        let loaded = try MarkdownNoteStore(url: url).load()
+        #expect(loaded.first?.text == "issue #123 참고")
+        #expect(loaded.first?.tags == ["회사", "읽을거리"])
+    }
+
+    @Test func 태그_입력_파싱() {
+        #expect(Capture.parseTags("#회사, 읽을거리  #회사") == ["회사", "읽을거리"])
+        #expect(Capture.parseTags("  ").isEmpty)
+    }
+
     @Test func 여러_줄_캡처도_왕복한다() throws {
         let url = makeTempURL()
         let store = MarkdownNoteStore(url: url)
