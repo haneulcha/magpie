@@ -261,7 +261,8 @@ enum PermissionGate {
 
 `Magpie/App/MagpieApp.swift`, `Magpie/UI/CapturePanel.swift`. `.menuBarExtraStyle(.window)`는 커스텀 SwiftUI 뷰를 쓰려면 필수.
 
-- **`.window` 스타일 창은 `ScrollView`에 높이를 주지 않는다** → 목록이 0pt로 접혀 개수만 보인다. 내용 높이를 재서 `.frame(height:)`로 직접 준다(`CapturePanel.listHeight`).
+- **`.window` 스타일 창은 `ScrollView`에 높이를 주지 않는다** → 목록이 0pt로 접혀 개수만 보인다. 게다가 이 창은 커지기만 하고 줄지 않는다. 그래서 목록 높이는 **고정**(360pt)한다. 내용을 따라가면 빈 공간이 남거나 창이 출렁인다.
+- **상호작용 중 레이아웃은 움직이지 않는다.** 호버 버튼은 자리를 항상 차지하고 투명도만 바꾸고, 태그 편집은 같은 줄을 같은 크기의 입력창으로 바꿔 끼운다.
 - 패널 목록은 날짜 섹션(오늘/어제/날짜)으로 묶고, 출처 앱·태그 칩으로 필터한다. 필터 중 `Copy all`은 보이는 것만 복사한다.
 - `Info.plist`에 `LSUIElement = YES` → Dock 아이콘 없음, 포커스 안 뺏김.
 - HUD는 `MenuBarExtra`로 못 만든다(패널이 닫혀 있으면 뷰가 없음). 별도 `NSPanel`:
