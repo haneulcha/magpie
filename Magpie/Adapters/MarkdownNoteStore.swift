@@ -136,7 +136,7 @@ final class MarkdownNoteStore: NotePersisting {
         let tags = Capture.parseTags(String(last[commentEnd.upperBound...]))
 
         let source = meta["src"].map {
-            CaptureSource(appName: $0, bundleID: meta["bid"] ?? "")
+            CaptureSource(appName: $0, bundleID: meta["bid"] ?? "", title: meta["title"], url: meta["url"])
         }
 
         return Capture(
@@ -225,6 +225,8 @@ final class MarkdownNoteStore: NotePersisting {
         if let source = capture.source {
             meta += " src=\"\(source.appName)\""
             if !source.bundleID.isEmpty { meta += " bid=\(source.bundleID)" }
+            if let title = source.title { meta += " title=\"\(title)\"" }
+            if let url = source.url { meta += " url=\"\(url)\"" }
         }
         meta += " at=\(timeFormatter.string(from: capture.createdAt))"
 

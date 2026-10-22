@@ -55,11 +55,18 @@ final class AppEnvironment {
             CaptureHUD.shared.show(PermissionGate.isSecureInputEnabled ? .secureInput : .nothingSelected)
             return
         }
-        guard store.append(text, from: .frontmost()) != nil else {
+        guard let capture = store.append(text, from: .frontmost()) else {
             CaptureHUD.shared.show(.nothingSelected)
             return
         }
         CaptureHUD.shared.show(.captured)
+
+        if capture.source?.bundleID == OrcaSession.bundleID {
+            Task {
+                guard let title = await OrcaSession.title(containing: capture.text) else { return }
+                store.setSourceTitle(title, for: capture.id)
+            }
+        }
     }
 
     func copyAllToPasteboard(_ captures: [Capture]) {
