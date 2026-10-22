@@ -6,6 +6,7 @@ struct CapturePanel: View {
     @State private var filter: Filter?
     @State private var editingTags: Capture.ID?
     @State private var tagDraft = ""
+    @State private var expanded: Capture.ID?
 
     enum Filter: Hashable {
         case app(String)
@@ -63,6 +64,8 @@ struct CapturePanel: View {
             Divider()
             footer
         }
+        // MenuBarExtra는 패널을 닫아도 뷰 상태를 유지한다. 다시 열면 모두 접힌 상태로 시작한다.
+        .onDisappear { expanded = nil }
     }
 
     private var list: some View {
@@ -126,12 +129,21 @@ struct CapturePanel: View {
     }
 
     private func row(_ capture: Capture) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text(capture.text)
-                .font(.system(size: 12))
-                .lineLimit(3)
-                .textSelection(.enabled)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        let isExpanded = expanded == capture.id
+        return VStack(alignment: .leading, spacing: 3) {
+            // 접힌 상태에선 클릭이 펼치기로 가야 하므로 텍스트 선택은 펼쳤을 때만 켠다.
+            if isExpanded {
+                Text(capture.text)
+                    .font(.system(size: 12))
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                details(capture)
+            } else {
+                Text(capture.text)
+                    .font(.system(size: 12))
+                    .lineLimit(3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             // 메타 줄 하나에 출처·태그·버튼을 모은다. 태그 편집은 같은 줄을 같은 크기의 입력창으로 바꿔 끼워 행 높이가 변하지 않는다.
             HStack(spacing: 6) {
                 Text(subtitle(for: capture))
@@ -154,6 +166,12 @@ struct CapturePanel: View {
                 Spacer(minLength: 0)
                 // 버튼 자리는 항상 차지하고 보이기만 바꾼다. 호버로 레이아웃이 움직이지 않게.
                 HStack(spacing: 8) {
+                    Button {
+                        env.copyAllToPasteboard([capture])
+                    } label: {
+                        Image(systemName: "doc.on.doc")
+                    }
+                    .help("이것만 복사")
                     Button {
                         tagDraft = capture.tags.map { "#\($0)" }.joined(separator: " ")
                         editingTags = capture.id
@@ -180,8 +198,37 @@ struct CapturePanel: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
+        .background(isExpanded ? Color.secondary.opacity(0.08) : .clear)
         .contentShape(.rect)
+        .onTapGesture { expanded = isExpanded ? nil : capture.id }
         .onHover { hovered = $0 ? capture.id : (hovered == capture.id ? nil : hovered) }
+    }
+
+    private func details(_ capture: Capture) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            detailLine("calendar", capture.createdAt.formatted(date: .complete, time: .shortened))
+            if let source = capture.source {
+                detailLine("app", source.appName)
+                if let title = source.title { detailLine("doc.text", title) }
+                if let url = source.url { detailLine("link", url) }
+            }
+            if let url = capture.source?.url.flatMap(URL.init(string:)) {
+                Button("원래 페이지 열기") { NSWorkspace.shared.open(url) }
+                    .controlSize(.small)
+                    .padding(.top, 2)
+            }
+        }
+        .font(.system(size: 10))
+        .foregroundStyle(.secondary)
+        .padding(.vertical, 4)
+    }
+
+    private func detailLine(_ symbol: String, _ text: String) -> some View {
+        Label {
+            Text(text).lineLimit(1).truncationMode(.middle).textSelection(.enabled)
+        } icon: {
+            Image(systemName: symbol).frame(width: 12)
+        }
     }
 
     private var emptyState: some View {
@@ -243,6 +290,7 @@ struct CapturePanel: View {
     private func subtitle(for capture: Capture) -> String {
         let time = capture.createdAt.formatted(date: .omitted, time: .shortened)
         guard let source = capture.source else { return time }
-        return "\(source.appName) · \(time)"
+        // 제목은 맨 뒤에 둔다. 한 줄에 안 들어가면 제목부터 잘린다.
+        return [source.appName, time, source.title].compactMap(\.self).joined(separator: " · ")
     }
 }

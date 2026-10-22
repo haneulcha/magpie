@@ -25,6 +25,10 @@ osascript -e 'tell application "System Events" to tell process "Magpie" to get s
 
 높이가 41pt(푸터만)면 목록이 접힌 것이다. `MenuBarExtra(.window)` 안의 `ScrollView`는 높이를 받지 못한다.
 
+## 외부 명령 실행
+
+`Process`는 인자·환경변수의 한글을 NFD(자모 분해)로 바꿔 넘긴다. 한글 문자열을 외부 명령에 넘길 땐 표준입력으로 보낸다(`OrcaSession.search` 참고). 메뉴바 앱은 셸 PATH도 물려받지 않는다.
+
 ## 노트 파일
 
 실제 데이터: `~/Library/Application Support/Magpie/notes.md`. 포맷을 바꾸면 기존 파일을 그대로 읽을 수 있어야 하고, `MagpieTests/MarkdownNoteStoreTests.swift`에 왕복 테스트를 추가한다.

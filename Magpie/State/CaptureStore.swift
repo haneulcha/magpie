@@ -50,6 +50,13 @@ final class CaptureStore {
         scheduleSave()
     }
 
+    /// 캡처 뒤에 늦게 알게 된 출처 제목(예: Orca 세션 제목)을 채운다.
+    func setSourceTitle(_ title: String, for id: Capture.ID) {
+        guard let index = captures.firstIndex(where: { $0.id == id }) else { return }
+        captures[index].source?.title = title
+        scheduleSave()
+    }
+
     func deleteAll() {
         captures.removeAll()
         scheduleSave()

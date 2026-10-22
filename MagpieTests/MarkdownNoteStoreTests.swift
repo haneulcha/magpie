@@ -45,6 +45,31 @@ struct MarkdownNoteStoreTests {
         #expect(loaded.first?.tags == ["회사", "읽을거리"])
     }
 
+    @Test func 창_제목과_URL이_왕복한다() throws {
+        let url = makeTempURL()
+        let store = MarkdownNoteStore(url: url)
+        let source = CaptureSource(
+            appName: "Google Chrome", bundleID: "com.google.Chrome",
+            title: "Rate limiting 가이드", url: "https://example.com/a?b=1&c=two words"
+        )
+
+        try store.save([Capture(text: "본문", source: source)])
+        let loaded = try MarkdownNoteStore(url: url).load()
+        #expect(loaded.first?.source?.title == "Rate limiting 가이드")
+        #expect(loaded.first?.source?.url == "https://example.com/a?b=1&c=two words")
+    }
+
+    @Test func 창_제목_다듬기() {
+        #expect(CaptureSource.cleanTitle("AI는 디자인을 어떻게 바꾸고 있는가? | GeekNews - Chrome - 하늘 (nrise.net)", appName: "Google Chrome")
+                == "AI는 디자인을 어떻게 바꾸고 있는가? | GeekNews")
+        #expect(CaptureSource.cleanTitle("위피-라운지(채널) - NRISE - Slack", appName: "Slack") == "위피-라운지(채널) - NRISE")
+        #expect(CaptureSource.cleanTitle("2026-10-01 예약 도메인 보충 - cha - Obsidian 1.13.7", appName: "Obsidian") == "2026-10-01 예약 도메인 보충 - cha")
+        #expect(CaptureSource.cleanTitle("Say \"hi\" --> now", appName: "Safari") == "Say 'hi' -> now")
+        #expect(CaptureSource.cleanTitle("Slack", appName: "Slack") == nil)
+        #expect(CaptureSource.cleanTitle("  ", appName: "Safari") == nil)
+        #expect(CaptureSource.cleanTitle(nil, appName: "Safari") == nil)
+    }
+
     @Test func 태그_입력_파싱() {
         #expect(Capture.parseTags("#회사, 읽을거리  #회사") == ["회사", "읽을거리"])
         #expect(Capture.parseTags("  ").isEmpty)
